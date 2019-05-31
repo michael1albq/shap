@@ -220,7 +220,7 @@ def save_html(out_file, plot_html):
 
     internal_open = False
     if type(out_file) == str:
-        out_file = open(out_file, "w")
+        out_file = open(out_file, "w", encoding="utf-8")
         internal_open = True
     out_file.write("<html><head><script>\n")
 
