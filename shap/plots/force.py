@@ -214,6 +214,18 @@ def initjs():
         "<script>{bundle_data}</script>".format(bundle_data=bundle_data)
     ))
 
+
+def get_header_script():
+    # embed what is returned here between <head></head> tags
+    header_script = "<script>\n"
+    # dump the js code
+    bundle_path = os.path.join(os.path.split(__file__)[0], "resources", "bundle.js")
+    with io.open(bundle_path, encoding="utf-8") as f:
+        bundle_data = f.read()  # read as string
+    header_script += bundle_data + "</script>"
+    return header_script
+
+
 def save_html(out_file, plot_html):
     """ Save html plots to an output file.
     """
@@ -253,6 +265,7 @@ def ensure_not_numpy(x):
     else:
         return x
 
+
 def verify_valid_cmap(cmap):
     assert (isinstance(cmap, str) or isinstance(cmap, list) or str(type(cmap)).endswith("unicode'>")
         ),"Plot color map must be string or list! not: " + str(type(cmap))
@@ -263,6 +276,7 @@ def verify_valid_cmap(cmap):
              assert(bool(_rgbstring.match(color))),"Invalid color found in CMAP."
 
     return cmap
+
 
 def visualize(e, plot_cmap="RdBu", matplotlib=False, figsize=(20,3), show=True, ordering_keys=None, ordering_keys_time_format=None, text_rotation=0):
     plot_cmap = verify_valid_cmap(plot_cmap)
@@ -284,6 +298,7 @@ def visualize(e, plot_cmap="RdBu", matplotlib=False, figsize=(20,3), show=True, 
     else:
         assert False, "visualize() can only display Explanation objects (or arrays of them)!"
 
+
 try:
     # register the visualize function with IPython
     ip = get_ipython()
@@ -296,8 +311,10 @@ try:
         else:
             return str(e) if old_list_formatter is None else old_list_formatter(e)
     svg_formatter.for_type(list, try_list_display)
+
 except:
     pass
+
 
 class SimpleListVisualizer:
     def __init__(self, e):
